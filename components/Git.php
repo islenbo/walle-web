@@ -26,8 +26,11 @@ class Git extends Command {
         // 存在git目录，直接pull
         if (file_exists($dotGit)) {
             $cmd[] = sprintf('cd %s ', $gitDir);
+            $cmd[] = sprintf('/usr/bin/env git clean -df');
             $cmd[] = sprintf('/usr/bin/env git checkout -q %s', $branch);
-            $cmd[] = sprintf('/usr/bin/env git fetch -p -q --all');
+            // 删除本地tag，重新同步（远程同名tag变更时本地不会更新，需要手动删除）
+            $cmd[] = sprintf('/usr/bin/env git tag -l | xargs git tag -d');
+            $cmd[] = sprintf('/usr/bin/env git fetch -q --all');
             $cmd[] = sprintf('/usr/bin/env git reset -q --hard origin/%s', $branch);
             $command = join(' && ', $cmd);
             return $this->runLocalCommand($command);
@@ -72,6 +75,7 @@ class Git extends Command {
         $cmd[] = sprintf('cd %s ', $destination);
         $cmd[] = '/usr/bin/env git fetch -p';
         $cmd[] = '/usr/bin/env git pull -a';
+        $cmd[] = '/usr/bin/env git remote update origin --prune';
         $cmd[] = '/usr/bin/env git branch -a';
         $command = join(' && ', $cmd);
         $result = $this->runLocalCommand($command);

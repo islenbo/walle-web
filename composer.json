@@ -1,13 +1,13 @@
 {
-    "name": "meolu/walle-web",
+    "name": "islenbo/walle-web",
     "description": "A web deployment tool",
     "keywords": ["walle", "php deploy", "deploy web", "deploy ui"],
-    "homepage": "http://www.huamanshu.com/walle-en.html",
+    "homepage": "https://github.com/islenbo/walle-web",
     "type": "project",
-    "license": "BSD-3-Clause",
+    "license": "Apache License 2.0",
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7.1.0",
         "yiisoft/yii2": "~2.0.15",
         "yiisoft/yii2-bootstrap": "~2.0.8",
         "yiisoft/yii2-swiftmailer": "~2.0.7"

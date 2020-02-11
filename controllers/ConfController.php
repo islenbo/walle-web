@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use yii;
 use yii\web\NotFoundHttpException;
-use yii\data\Pagination;
 use app\components\Controller;
 use app\models\Project;
 use app\models\User;
@@ -38,11 +37,15 @@ class ConfController extends Controller
         // 显示该用户为管理员的所有项目
         $project = Project::find()
             ->leftJoin(Group::tableName(), "`$groupTable`.`project_id`=`$projectTable`.`id`")
-            ->where(["`$groupTable`.`user_id`" => $this->uid, "`$groupTable`.`type`" => Group::TYPE_ADMIN]); 
+            ->where(["`$groupTable`.`user_id`" => $this->uid, "`$groupTable`.`type`" => Group::TYPE_ADMIN]);
 
         $kw = \Yii::$app->request->post('kw');
         if ($kw) {
             $project->andWhere(['like', "name", $kw]);
+        }
+        $level = Yii::$app->request->post('level');
+        if ($level !== '') {
+            $project->andWhere(['=', 'level', intval($level)]);
         }
         $project = $project->asArray()->all();
         return $this->render('index', [

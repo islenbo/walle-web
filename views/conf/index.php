@@ -3,13 +3,25 @@
  * @var yii\web\View $this
  */
 $this->title = yii::t('conf', 'index');
+
+use app\models\Project;
 use yii\helpers\Url;
 ?>
 <div class="box">
     <div class="page-header">
         <form action="<?= Url::to('@web/conf') ?>" method="POST">
             <input type="hidden" value="<?= \Yii::$app->request->getCsrfToken(); ?>" name="_csrf">
-            <div class="col-xs-12 col-sm-8" style="padding-left: 0;margin-bottom: 10px;">
+
+            <div class="col-xs-4 col-sm-2" style="padding-left: 0;margin-bottom: 10px;">
+                <select name="level" class="form-control">
+                    <option value="" <?= Yii::$app->request->post('level')  === '' ? 'selected' : '' ?>>全部</option>
+                    <option value="1" <?= Yii::$app->request->post('level') == Project::LEVEL_TEST ? 'selected' : '' ?>>测试环境</option>
+                    <option value="2" <?= Yii::$app->request->post('level') == Project::LEVEL_SIMU ? 'selected' : '' ?>>预发布环境</option>
+                    <option value="3" <?= Yii::$app->request->post('level') == Project::LEVEL_PROD ? 'selected' : '' ?>>线上环境</option>
+                </select>
+            </div>
+
+            <div class="col-xs-6 col-sm-6" style="padding-left: 0;margin-bottom: 10px;">
                 <div class="input-group">
                     <input type="text" name="kw" class="form-control search-query" placeholder="<?= yii::t('conf', 'index search placeholder') ?>">
                     <span class="input-group-btn">
@@ -117,6 +129,6 @@ use yii\helpers\Url;
         $("#viewModal").on("hidden.bs.modal", function() {
             $(this).removeData("bs.modal");
         });
-       
+
     });
 </script>

@@ -177,9 +177,11 @@ class Command
         fwrite(self::$logFile, $message . PHP_EOL);
 
         // 写一份到独立的log，给get-process获取
-        $taskId = Yii::$app->request->post('taskId');
-        $file = Yii::$app->runtimePath."/logs/task_{$taskId}.log";
-        file_put_contents($file, $message . PHP_EOL, FILE_APPEND);
+        if (Yii::$app->request instanceof \yii\web\Request) {
+            $taskId = Yii::$app->request->post('taskId');
+            $file = Yii::$app->runtimePath."/logs/task_{$taskId}.log";
+            file_put_contents($file, $message . PHP_EOL, FILE_APPEND);
+        }
     }
 
     /**

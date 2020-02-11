@@ -43,7 +43,7 @@ class ConfController extends Controller
         if ($kw) {
             $project->andWhere(['like', "name", $kw]);
         }
-        $level = Yii::$app->request->post('level');
+        $level = Yii::$app->request->post('level', '');
         if ($level !== '') {
             $project->andWhere(['=', 'level', intval($level)]);
         }

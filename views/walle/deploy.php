@@ -20,6 +20,14 @@ use yii\helpers\Url;
         /*float: right;*/
         margin-left: 30px;
     }
+
+    #process-log {
+        margin: 0;
+        background: #333;
+        color: #ccc;
+        border-radius: 0;
+        padding: 5px;
+    }
 </style>
 <div class="box" style="height: 100%">
     <h4 class="box-title header smaller red">
@@ -61,6 +69,12 @@ use yii\helpers\Url;
         <i class="icon-bullhorn"></i><span><?= yii::t('walle', 'error todo') ?></span>
     </div>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <pre id="process-log"></pre>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/javascript">
@@ -86,6 +100,7 @@ use yii\helpers\Url;
             function getProcess() {
                 $.get("<?= Url::to('@web/walle/get-process?taskId=') ?>" + task_id, function (o) {
                     var data = o.data;
+                    $('#process-log').html(data.log);
                     if (0 != data.percent) {
                         $('.progress-status').attr('aria-valuenow', data.percent).width(data.percent + '%');
                     }

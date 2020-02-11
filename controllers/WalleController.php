@@ -377,6 +377,7 @@ class WalleController extends Controller
                         ->one();
         $record['memo'] = isset($record['memo']) ? stripslashes($record['memo']) : '';
         $record['command'] = isset($record['command']) ? stripslashes($record['command']) : '';
+        $record['log'] = file_get_contents(Yii::$app->runtimePath."/logs/task_{$taskId}.log");
 
         $this->renderJson($record);
     }

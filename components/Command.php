@@ -8,6 +8,8 @@
  * *****************************************************************/
 namespace app\components;
 
+use Yii;
+
 class Command
 {
 
@@ -50,7 +52,7 @@ class Command
         if ($config) {
             $this->config = $config;
         } else {
-            throw new \Exception(\yii::t('walle', 'unknown config'));
+            throw new \Exception(Yii::t('walle', 'unknown config'));
         }
     }
 
@@ -138,7 +140,7 @@ class Command
         if ($config) {
             $this->config = $config;
         } else {
-            throw new \Exception(\yii::t('walle', 'unknown config'));
+            throw new \Exception(Yii::t('walle', 'unknown config'));
         }
 
         return $this;
@@ -156,11 +158,11 @@ class Command
 
     public static function log($message)
     {
-        if (empty(\Yii::$app->params['log.dir'])) {
+        if (empty(Yii::$app->params['log.dir'])) {
             return;
         }
 
-        $logDir = \Yii::$app->params['log.dir'];
+        $logDir = Yii::$app->params['log.dir'];
 
         if (is_dir($logDir) === false && mkdir($logDir, 0777, true) === false) {
             return;
@@ -173,6 +175,11 @@ class Command
 
         $message = date('Y-m-d H:i:s -- ') . $message;
         fwrite(self::$logFile, $message . PHP_EOL);
+
+        // 写一份到独立的log，给get-process获取
+        $taskId = Yii::$app->request->post('taskId');
+        $file = Yii::$app->runtimePath."/logs/task_{$taskId}.log";
+        file_put_contents($file, $message . PHP_EOL, FILE_APPEND);
     }
 
     /**

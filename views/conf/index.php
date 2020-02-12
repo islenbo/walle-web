@@ -21,6 +21,14 @@ use yii\helpers\Url;
                 </select>
             </div>
 
+            <div class="col-xs-4 col-sm-2" style="padding-left: 0;margin-bottom: 10px;">
+                <select name="status" class="form-control">
+                    <option value="" <?= Yii::$app->request->post('status', 1)  === '' ? 'selected' : '' ?>>全部</option>
+                    <option value="1" <?= Yii::$app->request->post('status', 1) == Project::STATUS_VALID ? 'selected' : '' ?>>有效</option>
+                    <option value="0" <?= intval(Yii::$app->request->post('status', 1)) === Project::STATUS_INVALID ? 'selected' : '' ?>>无效</option>
+                </select>
+            </div>
+
             <div class="col-xs-6 col-sm-6" style="padding-left: 0;margin-bottom: 10px;">
                 <div class="input-group">
                     <input type="text" name="kw" class="form-control search-query" placeholder="<?= yii::t('conf', 'index search placeholder') ?>">

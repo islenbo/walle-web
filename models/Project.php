@@ -45,6 +45,9 @@ class Project extends \yii\db\ActiveRecord
     // 有效状态
     const STATUS_VALID = 1;
 
+    // 无效状态
+    const STATUS_INVALID = 0;
+
     // 测试环境
     const LEVEL_TEST  = 1;
 

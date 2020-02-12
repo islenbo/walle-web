@@ -47,6 +47,10 @@ class ConfController extends Controller
         if ($level !== '') {
             $project->andWhere(['=', 'level', intval($level)]);
         }
+        $status = Yii::$app->request->post('status', '1');
+        if ($status !== '') {
+            $project->andWhere(['=', 'status', intval($status)]);
+        }
         $project = $project->asArray()->all();
         return $this->render('index', [
             'list' => $project,
